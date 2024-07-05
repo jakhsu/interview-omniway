@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 
 import { useRouter } from 'src/routes/hooks';
 
-import { useMockedUser } from 'src/hooks/use-mocked-user';
+import { HOST_API } from 'src/config-global';
 
 import { useAuthContext } from 'src/auth/hooks';
 
@@ -40,7 +40,7 @@ const OPTIONS = [
 export default function AccountPopover() {
   const router = useRouter();
 
-  const { user } = useMockedUser();
+  const { user } = useAuthContext();
 
   const { logout } = useAuthContext();
 
@@ -80,8 +80,8 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={user?.photoURL}
-          alt={user?.displayName}
+          src={HOST_API + user?.photoURL.url}
+          alt={user?.photoURL.alternativeText}
           sx={{
             width: 36,
             height: 36,
