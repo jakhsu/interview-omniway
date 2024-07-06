@@ -54,7 +54,7 @@ function Container({ children }) {
   useEffect(() => {
     check();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [authenticated]);
 
   if (!checked) {
     return null;

@@ -1,5 +1,3 @@
-import { paths } from 'src/routes/paths';
-
 import axios from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
@@ -34,30 +32,27 @@ export const isValidToken = (accessToken) => {
 
 // ----------------------------------------------------------------------
 
-export const tokenExpired = (exp) => {
-  // eslint-disable-next-line prefer-const
-  let expiredTimer;
-
+export const tokenExpired = (exp, logout) => {
   const currentTime = Date.now();
-
-  // Test token expires after 10s
-  // const timeLeft = currentTime + 10000 - currentTime; // ~10s
   const timeLeft = exp * 1000 - currentTime;
 
-  clearTimeout(expiredTimer);
+  const expiredTimer = setTimeout(
+    () => {
+      alert('Token expired');
 
-  expiredTimer = setTimeout(() => {
-    alert('Token expired');
+      sessionStorage.removeItem('accessToken');
 
-    sessionStorage.removeItem('accessToken');
+      logout();
+    },
+    1000 * 60 * 2
+  );
 
-    window.location.href = paths.auth.jwt.login;
-  }, timeLeft);
+  return () => clearTimeout(expiredTimer);
 };
 
 // ----------------------------------------------------------------------
 
-export const setSession = (accessToken) => {
+export const setSession = (accessToken, logout) => {
   if (accessToken) {
     sessionStorage.setItem('accessToken', accessToken);
 
@@ -65,7 +60,8 @@ export const setSession = (accessToken) => {
 
     // This function below will handle when token is expired
     const { exp } = jwtDecode(accessToken); // ~3 days by minimals server
-    tokenExpired(exp);
+    const clearTimer = tokenExpired(exp, logout);
+    return clearTimer;
   } else {
     sessionStorage.removeItem('accessToken');
 
