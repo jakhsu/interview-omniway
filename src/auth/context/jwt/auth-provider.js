@@ -6,7 +6,7 @@ import { useMemo, useEffect, useReducer, useCallback } from 'react';
 import axios, { endpoints } from 'src/utils/axios';
 
 import { AuthContext } from './auth-context';
-import { setSession, isValidToken } from './utils';
+import { setSession, isValidToken, generateRefreshToken } from './utils';
 
 // ----------------------------------------------------------------------
 /**
@@ -118,7 +118,9 @@ export function AuthProvider({ children }) {
 
       const { jwt: accessToken, user } = response.data;
 
-      const clearTimer = setSession(accessToken, logout);
+      const refreshToken = generateRefreshToken();
+
+      const clearTimer = setSession(accessToken, logout, refreshToken);
 
       sessionStorage.setItem(USER_KEY, JSON.stringify(user));
 
