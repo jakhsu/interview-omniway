@@ -64,6 +64,7 @@ export const setSession = (accessToken, logout) => {
     return clearTimer;
   } else {
     sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('user');
 
     delete axios.defaults.headers.common.Authorization;
   }

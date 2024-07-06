@@ -22,6 +22,7 @@ const initialState = {
 };
 
 const reducer = (state, action) => {
+  console.log('Reducer action:', action);
   switch (action.type) {
     case 'INITIAL':
       return {
@@ -51,6 +52,7 @@ const reducer = (state, action) => {
 // ----------------------------------------------------------------------
 
 const STORAGE_KEY = 'accessToken';
+const USER_KEY = 'user';
 
 export function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -58,6 +60,7 @@ export function AuthProvider({ children }) {
   // LOGOUT
   const logout = useCallback(async () => {
     setSession(null);
+    sessionStorage.removeItem(USER_KEY);
     dispatch({
       type: 'LOGOUT',
     });
@@ -67,12 +70,13 @@ export function AuthProvider({ children }) {
     try {
       const accessToken = sessionStorage.getItem(STORAGE_KEY);
 
+      console.log({ accessToken });
+      console.log(isValidToken(accessToken));
+
       if (accessToken && isValidToken(accessToken)) {
         setSession(accessToken, logout);
 
-        const response = await axios.get(endpoints.auth.me);
-
-        const { user } = response.data;
+        const user = JSON.parse(sessionStorage.getItem(USER_KEY));
 
         dispatch({
           type: 'INITIAL',
@@ -119,6 +123,8 @@ export function AuthProvider({ children }) {
       const { jwt: accessToken, user } = response.data;
 
       const clearTimer = setSession(accessToken, logout);
+
+      sessionStorage.setItem(USER_KEY, JSON.stringify(user));
 
       dispatch({
         type: 'LOGIN',
@@ -181,6 +187,8 @@ export function AuthProvider({ children }) {
     }),
     [login, logout, register, state.user, status]
   );
+
+  // console.log('AuthProvider memoizedValue:', memoizedValue);
 
   return <AuthContext.Provider value={memoizedValue}>{children}</AuthContext.Provider>;
 }
