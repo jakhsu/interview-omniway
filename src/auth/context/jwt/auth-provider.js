@@ -22,7 +22,6 @@ const initialState = {
 };
 
 const reducer = (state, action) => {
-  console.log('Reducer action:', action);
   switch (action.type) {
     case 'INITIAL':
       return {
@@ -69,9 +68,6 @@ export function AuthProvider({ children }) {
   const initialize = useCallback(async () => {
     try {
       const accessToken = sessionStorage.getItem(STORAGE_KEY);
-
-      console.log({ accessToken });
-      console.log(isValidToken(accessToken));
 
       if (accessToken && isValidToken(accessToken)) {
         setSession(accessToken, logout);
@@ -187,8 +183,6 @@ export function AuthProvider({ children }) {
     }),
     [login, logout, register, state.user, status]
   );
-
-  // console.log('AuthProvider memoizedValue:', memoizedValue);
 
   return <AuthContext.Provider value={memoizedValue}>{children}</AuthContext.Provider>;
 }
