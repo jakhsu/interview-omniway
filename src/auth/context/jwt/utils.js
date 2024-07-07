@@ -36,12 +36,17 @@ export const tokenExpired = (exp, logout) => {
   const currentTime = Date.now();
   const timeLeft = exp * 1000 - currentTime;
 
-  const expiredTimer = setTimeout(() => {
+  const expiredTimer = setTimeout(async () => {
     alert('Token expired');
-
+    // NOTE: I commented these two line out because now with refresh token strategy,
+    // users can refresh their access token without having to log in again,
+    // so loggging users out automatically is not necessary
     // sessionStorage.removeItem('accessToken');
-
     // logout();
+
+    // NOTE: This is the logic to refresh token
+    const { accessToken } = await getRefreshToken();
+    setSession(accessToken);
   }, timeLeft);
 
   return () => clearTimeout(expiredTimer);
@@ -49,7 +54,7 @@ export const tokenExpired = (exp, logout) => {
 
 // ----------------------------------------------------------------------
 
-export const setSession = (accessToken, logout, refreshToken) => {
+export const setSession = (accessToken, logout) => {
   if (accessToken) {
     sessionStorage.setItem('accessToken', accessToken);
 
