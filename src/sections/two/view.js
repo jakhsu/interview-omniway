@@ -41,21 +41,7 @@ export default function TwoView() {
             }
           }}
         >
-          Fetch Two
-        </Button>
-        <Button
-          variant="contained"
-          onClick={async () => {
-            try {
-              const { jwt, refreshToken } = getRefreshToken();
-              console.log('jwt:', jwt);
-              console.log('refreshToken:', refreshToken);
-            } catch (error) {
-              console.error('Error fetching two:', error);
-            }
-          }}
-        >
-          refresh token function
+          Fetching protected data (figures list)
         </Button>
       </Box>
     </Container>
