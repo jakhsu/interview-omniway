@@ -69,11 +69,7 @@ export const setSession = (accessToken, logout, refreshToken) => {
 };
 
 export const getRefreshToken = async () => {
-  const accessToken = sessionStorage.getItem('accessToken');
   try {
-    const formData = new FormData();
-    formData.append('refreshToken', accessToken);
-
     const response = await axios.post(endpoints.token.refresh, {
       withCredentials: true, // This ensures cookies are sent
     });
