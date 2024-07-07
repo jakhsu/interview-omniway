@@ -1,10 +1,11 @@
 import axios from 'axios';
 
 import { HOST_API } from 'src/config-global';
+import { TEST_API } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
-const axiosInstance = axios.create({ baseURL: HOST_API });
+const axiosInstance = axios.create({ baseURL: TEST_API, withCredentials: true });
 
 axiosInstance.interceptors.response.use(
   (res) => res,
@@ -52,5 +53,8 @@ export const endpoints = {
   },
   figures: {
     list: '/api/figures',
+  },
+  token: {
+    refresh: '/api/token/refresh',
   },
 };
