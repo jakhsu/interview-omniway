@@ -1,5 +1,4 @@
 import axios, { endpoints } from 'src/utils/axios';
-import { v4 as uuidv4 } from 'uuid';
 
 // ----------------------------------------------------------------------
 
