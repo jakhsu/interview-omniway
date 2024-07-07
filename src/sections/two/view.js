@@ -8,7 +8,6 @@ import { Button } from '@mui/material';
 
 import { useSettingsContext } from 'src/components/settings';
 import axios, { endpoints } from 'src/utils/axios';
-import { getRefreshToken } from 'src/auth/context/jwt/utils';
 
 // ----------------------------------------------------------------------
 
