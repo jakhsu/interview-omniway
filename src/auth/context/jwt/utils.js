@@ -39,9 +39,9 @@ export const tokenExpired = (exp, logout) => {
   const expiredTimer = setTimeout(() => {
     alert('Token expired');
 
-    sessionStorage.removeItem('accessToken');
+    // sessionStorage.removeItem('accessToken');
 
-    logout();
+    // logout();
   }, timeLeft);
 
   return () => clearTimeout(expiredTimer);
