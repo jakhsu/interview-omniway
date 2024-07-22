@@ -125,9 +125,9 @@ export default function JwtLoginView() {
     <>
       {renderHead}
 
-      {/* <Alert severity="info" sx={{ mb: 3 }}>
+      <Alert severity="info" sx={{ mb: 3 }}>
         Use identifier : <strong>002@m-inno.com</strong> / password :<strong> Pass002</strong>
-      </Alert> */}
+      </Alert>
 
       {!!errorMsg && (
         <Alert severity="error" sx={{ mb: 3 }}>
